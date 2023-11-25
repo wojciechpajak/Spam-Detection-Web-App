@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="content-section">
+                <div class="form-group mb-2">
+                    <div class="form-group d-flex justify-content-between">
+                        <p class="text-secondary">{{ record.user.username }} | {{ record.date.strftime('%R %d-%m-%Y') }}</p>
+                        <button class="btn btn-danger"data-bs-toggle="modal" data-bs-target="#deleteModal">Usuń</button>
+                    </div>
+                    
+                    <h5>Treść wiadomości</h5>
+                    <div class="content-section">
+                        {{ record.content }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="content-section">
+                <div class="form-group d-flex justify-content-between align-items-center">
+                    <h5>Wyniki klasyfikacji</h5>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-action list-group-item-light d-flex justify-content-between align-items-start">
+                        {% if record.rate == 0 %}
+                            <div>Klasa: <b>HAM</b></div>
+                        {% elif record.rate == 1 %}
+                            <div>Klasa: <b>SPAM</b></div>
+                        {% endif %}
+                    </li>
+                    <li class="list-group-item list-group-item-action list-group-item-light">
+                        <span class="badge bg-success rounded-pill p-2">Ham: {{ '{:.2f}'.format(record.ham_rate) }}%</span>
+                        <span class="badge bg-danger rounded-pill p-2">Spam: {{ '{:.2f}'.format(record.spam_rate) }}%</span>
+                    </li>
+                    <li class="list-group-item list-group-item-light">Model: {{ record.model }}</li>
+                </ul>
+            </div>
+            <div class="content-section">
+                <h5>Metryki modelu</h5>
+                <div class="border-top"></div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <small class="text-muted">Accuracy: {{ '{:.2f}'.format(metric.accuracy * 100) }}%</small><br>
+                        <small class="text-muted">Precision: {{ '{:.2f}'.format(metric.precision * 100) }}%</small><br>
+                        <small class="text-muted">Recall: {{ '{:.2f}'.format(metric.recall * 100) }}%</small><br>
+                    </div>
+                    <div class="col-md-6">
+                        <small class="text-muted">F1 Score: {{ '{:.2f}'.format(metric.f1_score * 100) }}%</small><br>
+                        <small class="text-muted">Std deviation: {{ '{:.2f}'.format(metric.std_deviation * 100) }}%</small>
+                    </div>
+                </div>
+            </div>
+        </div>   
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="border-top pt-2"><small class="text-muted">Wyjaśnienie:</small></div>
+            <div>
+                {% if record.plot != None %}
+                    {{ record.plot | safe }}
+                {% else %}
+                    <div>—</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Usunąć zapis?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Anuluj</button>
+                <form action="{{ url_for('delete', record_id=record.id) }}" method="POST">
+                    <input class="btn btn-danger" type="submit" value="Delete">
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,20 @@
+Model db:
+    model_mnb = Model(id=1, name='MNB_EnronAll_MaxFeatures1000', accuracy=0.9542, precision=0.9425, recall=0.9688, f1_score=0.9552, std_deviation=0.01)
+    model_svc = Model(id=2, name='SVC_EnronAll_MaxFeatures1000', accuracy=0.9655, precision=0.9484, recall=0.9861, f1_score=0.9666, std_deviation=0.0)
+    model_mlp = Model(id=3, name='MLP_EnronAll_MaxFeatures1000', accuracy=0.9617, precision=0.9519, recall=0.9743, f1_score=0.9626, std_deviation=0.01)
+
+Creating db commands:
+    python
+    from app import app, db
+    app.app_context().push()
+    db.create_all()
+    from app.models import User, RateHistory, Model
+
+
+    message_1 = Message(content='Treść wiadomości.')
+    db.session.add(message_1) <- dodaje wiadomość do db
+    db.session.commit()
+    Message.query.all()
+    Message.query.first()
+    Message.query.filter_by(content='text').all()
+    Message.query.get(numer id)

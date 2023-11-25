@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <form method="POST" action="">
+        <div class="row d-flex align-items-stretch">
+            <div class="col-md-8">
+                {{ form.hidden_tag() }}
+                <!-- <div class="content-section"> -->
+                    <div class="form-group mb-2">
+                        <h5>System Detekcji Spamu</h5>
+
+                        {% if form.content.errors %}
+                            {{ form.content(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.content.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.content(class="form-control shadow-sm p-3", placeholder='Wiadomość e-mail.') }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group d-flex justify-content-end">
+                            {% if current_user.is_authenticated %}
+                                {{ form.save(class="btn btn-outline-dark me-2", style="width: 90px;") }}
+                            {% endif %}
+                            {{ form.submit(class="btn btn-dark", style="width: 90px;") }}
+                    </div>
+                <!-- </div> -->
+            </div>
+
+            <div class="col-md-4">
+                <div class="content-section shadow-sm p-3">
+                    <div class="form-group d-flex justify-content-between align-items-center">
+                        <h5>Wybór modelu</h5>
+                    </div>
+                    <div class="form-group">
+                        <small class="text-muted" style="margin-bottom: 0; margin-left: 1%;">model</small>
+                        {{ form.model(class="form-select", style="height: 100%") }}
+                    </div>
+                </div>
+
+                <div class="content-section shadow-sm p-3">
+                    <div class="form-group d-flex justify-content-between align-items-center">
+                        <h5>Wyniki klasyfikacji</h5>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-action list-group-item-light d-flex justify-content-between align-items-start">
+                            {% if prediction_class == 0 %}
+                                <div>Klasa: <b>HAM</b></div>
+                            {% elif prediction_class == 1 %}
+                                <div>Klasa: <b>SPAM</b></div>
+                            {% else %}
+                                <div>—</div>
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item list-group-item-action list-group-item-light">
+                            {% if prediction_class != None %}
+                                <span class="badge bg-success rounded-pill p-2">Ham: {{ '{:.2f}'.format(prediction_ham) }}%</span>
+                                <span class="badge bg-danger rounded-pill p-2">Spam: {{ '{:.2f}'.format(prediction_spam) }}%</span>
+                            {% else %}
+                                <div>—</div>
+                            {% endif %}
+                        </li>
+                        <li class="list-group-item list-group-item-light">Model: <i>{{ form.model.data }}</i></li>
+                    </ul>
+                </div>
+            </div>   
+        </div>
+    </form>
+        
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="border-top pt-2"><small class="text-muted">Wyjaśnienie:</small></div>
+            <div>
+                {% if shap_plot != None %}
+                    {{ shap_plot | safe }}
+                {% else %}
+                    <div>—</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,114 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <div class="container mt-5">
+        <div class="row justify-content-md-center mb-5">
+            <div class="col-md-6">
+                <h1 class="display-4"><b>Praca Inżynierska.</b></h1>
+                <p class="lead">
+                    Projekt oraz implementacja aplikacji internetowej do rozpoznawania wiadomości typu spam z systemem wyjaśniania decyzji.
+                    Realizacja na potrzeby pracy dyplomowej. Pełen kod źródłowy znajduje się w repozytorium <a href="https://github.com/wojciechpajak/Spam-Detection-Web-App" class="link-success" style="text-decoration: none;">tutaj</a> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
+                      </svg>.
+                </p>
+            </div>
+        </div>
+        
+        <div class="border-top mb-5"></div>
+
+        <div class="row mb-5">
+            <div class="col-md-6">
+                <h2 class="title mb-4">System Detekcji Spamu</h2>
+                <p>
+                    Projekt zawiera implementację systemu detekcji wiadomości typu spam w języku angielskim na podstawie analizy treści wiadomości.
+                    W zakładce <b>Projekt</b> znajduje się główną część projektu zawierająca interaktywną przestrzeń do dokonywania klasyfikacji.  
+                    Dzięki algorytmom uczenia maszynowego oraz analizie tekstu tekst klasyfikowany jest jako <i>HAM</i> lub <i>SPAM</i> przy progu klasyfikacji równym <i>50%</i>.
+                    Aplikacja wprowadza innowacyjny element <i>Explainable AI</i>, który wyjaśnia podjętą przez system decyzję.
+                </p>
+                <div class="text">
+                    <p class="lead"><a href="{{ url_for('demo') }}" class="link-success" style="text-decoration: none;">PRZEJDŹ DO PROJEKTU</a></p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <img src="static/profile_pics/project.png" alt="Detekcja Spam" class="img-fluid">
+            </div>
+        </div>
+
+        <div class="border-top mb-5"></div>
+
+        <div class="row mb-5">
+            <div class="col-md-6">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">MNB</th>
+                            <th scope="col">SVC</th>
+                            <th scope="col">MLP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Accuracy</th>
+                            <td>{{ '{:.2f}'.format(metric_mnb.accuracy * 100) }}%</td>
+                            <td>{{ '{:.2f}'.format(metric_svc.accuracy * 100) }}%</td>
+                            <td>{{ '{:.2f}'.format(metric_mlp.accuracy * 100) }}%</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Precision</th>
+                            <td>{{ '{:.2f}'.format(metric_mnb.precision * 100) }}%</td>
+                            <td>{{ '{:.2f}'.format(metric_svc.precision * 100) }}%</td>
+                            <td>{{ '{:.2f}'.format(metric_mlp.precision * 100) }}%</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Recall</th>
+                            <td>{{ '{:.2f}'.format(metric_mnb.recall * 100) }}%</td>
+                            <td>{{ '{:.2f}'.format(metric_svc.recall * 100) }}%</td>
+                            <td>{{ '{:.2f}'.format(metric_mlp.recall * 100) }}%</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">F1 Score</th>
+                            <td>{{ '{:.2f}'.format(metric_mnb.f1_score * 100) }}%</td>
+                            <td>{{ '{:.2f}'.format(metric_svc.f1_score * 100) }}%</td>
+                            <td>{{ '{:.2f}'.format(metric_mlp.f1_score * 100) }}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h2 class="title mb-4">Modele klasyfikacyjne</h2>
+                <p>
+                    Implementacja modeli <i>MNB</i>, <i>SVC</i> oraz <i>MLP</i> dostarcza funkcjonalność detekcji spamu.
+                    Każdy z modeli został wyuczony w procesie uczenia maszynowego na ponad 33 000 wiadomości pochodzących ze zbioru <a href="http://nlp.cs.aueb.gr/software_and_datasets/Enron-Spam/index.html">Enron</a>.
+                    Modele klasyfikacyjne oceniono w oparciu o technikę walidacji krzyżowej, uzyskując miary wydajności systemu.
+                </p>
+                <div class="text">
+                    <p class="lead"><a href="{{ url_for('project') }}" class="link-success" style="text-decoration: none;">PRZEJDŹ DO PROJEKTU</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="border-top mb-5"></div>
+
+        <div class="row mb-5">
+            <div class="col-md-6">
+                <h2 class="title mb-4">Funkcjonalności</h2>
+                <p>
+                    System wzbogacony został o <b>dodatkowe funkcjonalności</b>.
+                    W celu prezentacji działania projektu wprowadzono wersję demonstracyjną znajdującą się w zakładce <b>Demo</b>.
+                    Dzięki stworzeniu konta, użytkownik posiada możliwość do zapisania historii klasyfikacji systemu.
+                     
+                </p>
+                <div class="text">
+                    <p class="lead"><a href="{{ url_for('demo') }}" class="link-success" style="text-decoration: none;">WYPRÓBUJ DEMO</a></p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <img src="static/profile_pics/history.png" alt="Detekcja Spam" class="img-fluid">
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

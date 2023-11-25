@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <div class="container d-flex justify-content-center">
+        <div class="col-md-6">
+            
+            <div class="content-section">
+                <legend class="border-bottom mb-2">Informacje o koncie</legend>
+                <div class="media d-flex form-inline">
+                    <div class="content-section" style="border: 0; border-style: none;">
+                        <img class="rounded-circle account-img" src="{{ image_file }}" style="width: 70px; height: 70px;">
+                    </div>
+                    
+                    <div class="media-body align-self-center">
+                    <h2 class="account-heading">{{ current_user.username }}</h2>
+                    <p class="text-secondary">{{ current_user.email }}</p>
+                    </div>
+                </div>
+
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    <fieldset class="form-group mt-2">                    
+                        <div class="form-group mb-2">
+                            {{ form.username.label(class="form-control-label") }}
+
+                            {% if form.username.errors %}
+                                {{ form.username(class="form-control form-control-sm is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.username.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.username(class="form-control form-control-sm", placeholder=current_user.username) }}
+                            {% endif %}                  
+                        </div>
+
+                        <div class="form-group mb-2">
+                            {{ form.email.label(class="form-control-label") }}
+                            {% if form.email.errors %}
+                                {{ form.email(class="form-control form-control-sm is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.email.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.email(class="form-control form-control-sm", placeholder=current_user.email) }}
+                            {% endif %} 
+                        </div>
+
+                        <div class="form-group mb-2 d-flex align-items-center justify-content-between">   
+                            {{ form.submit(class="btn btn-dark") }}
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
